@@ -76,7 +76,7 @@ def print_eval_metrics(rewards, config):
     print("-" * 40)
     print("\n")
 
-def evaluate(model_path: str, config: Config, episodes: int = 5, render_mode: str | None = "Human"):
+def evaluate(model_path: str, config: Config, episodes: int = 5, render_mode: str | None = None):
     device = get_device()
     env = make_env(config.env_id, render_mode=render_mode)
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     for name in models:
         cfg = configs[name]
 
-        rewards = evaluate(f"models/{name}.pt", config=cfg, episodes=10, render_mode="None")
+        rewards = evaluate(f"models/{name}.pt", config=cfg, episodes=10, render_mode=None)
 
         # Save and print evaluation metrics
         save_eval_metrics(rewards, cfg, f"metrics/eval_metrics_{name}.json")
