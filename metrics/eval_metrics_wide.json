@@ -1,0 +1,12 @@
+{
+    "experiment": "wide",
+    "env_id": "LunarLander-v3",
+    "episodes": 10,
+    "mean_reward": 258.0492023163905,
+    "std_reward": 19.612009736441724,
+    "median_reward": 259.29186936444194,
+    "min_reward": 226.12134110669348,
+    "max_reward": 288.85503235422226,
+    "success_rate": 1.0,
+    "cv": 0.07600104770870679
+}

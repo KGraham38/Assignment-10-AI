@@ -1,0 +1,12 @@
+{
+    "experiment": "dropout",
+    "env_id": "LunarLander-v3",
+    "episodes": 10,
+    "mean_reward": 0.892184608421345,
+    "std_reward": 67.80332985195932,
+    "median_reward": -23.3228642893398,
+    "min_reward": -67.94566335142764,
+    "max_reward": 174.70492091286002,
+    "success_rate": 0.0,
+    "cv": 75.99697328553148
+}

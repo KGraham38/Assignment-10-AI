@@ -1,5 +1,5 @@
 {
-    "experiment": "default",
+    "experiment": "baseline",
     "env_id": "LunarLander-v3",
     "episodes": 10,
     "mean_reward": 150.678252234436,

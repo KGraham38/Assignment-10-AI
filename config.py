@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import torch.nn as nn
 
 
 @dataclass
@@ -22,8 +23,10 @@ class Config:
     # ----------------------------------
     # Modeling Configurations: Defines neural network architecture
     # ----------------------------------
-    hidden_size_1: int = 128
-    hidden_size_2: int = 128
+    experiment_name: str = "baseline"
+    hidden_layers: tuple[int, ...] = (128, 128)
+    activation_f: type[nn.Module] = nn.ReLU
+    dropout_rate: float = 0.0
 
     # ----------------------------------
     # Evaluation Control
