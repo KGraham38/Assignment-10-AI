@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import torch.nn as nn
 
 
 @dataclass
@@ -19,12 +20,19 @@ class Config:
     target_update_every: int = 1_000
     train_every: int = 1
 
-    hidden_size_1: int = 128
-    hidden_size_2: int = 128
+    # ----------------------------------
+    # Modeling Configurations: Defines neural network architecture
+    # ----------------------------------
+    experiment_name: str = "baseline"
+    hidden_layers: tuple[int, ...] = (128, 128)
+    activation_f: type[nn.Module] = nn.ReLU
+    dropout_rate: float = 0.0
 
+    # ----------------------------------
+    # Evaluation Control
+    # ----------------------------------
     max_episodes: int = 500
     max_steps_per_episode: int = 1_000
-
     solve_score: float = 200.0
     moving_average_window: int = 100
 

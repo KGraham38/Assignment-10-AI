@@ -1,15 +1,22 @@
 """
-Train a DQN agent on LunarLander-v3.
+Train a DQN agent on LunarLander-v3 using multiple neural network configurations.
 
 Run:
     python train.py
 """
 
+import os
+import torch.nn as nn
 from agent import DQNAgent
 from config import Config
 from logger import TrainingLogger
 from utils import get_device, make_env, set_seed
 
+
+# Ensure output directories
+os.makedirs("models", exist_ok=True)
+os.makedirs("metrics", exist_ok=True)
+os.makedirs("plots", exist_ok=True)
 
 def train_dqn(config: Config):
     set_seed(config.seed)
@@ -69,18 +76,49 @@ def train_dqn(config: Config):
             print(f"\nSolved with moving average reward {moving_avg:.2f}.")
             break
 
-    agent.save(config.model_path)
-    logger.save_metrics(config.metrics_path)
-    logger.plot(config.plot_path)
+    agent.save(f"models/{config.experiment_name}.pt")
+    logger.save_metrics(f"metrics/train_metrics_{config.experiment_name}.json")
+    logger.plot(f"plots/train_plot_{config.experiment_name}.png")
     env.close()
 
-    print(f"\nModel saved to: {config.model_path}")
-    print(f"Metrics saved to: {config.metrics_path}")
-    print(f"Plot saved to: {config.plot_path}")
+    print(f"\nModel saved to: models/{config.experiment_name}.pt")
+    print(f"Metrics saved to: metrics/train_metrics_{config.experiment_name}.json")
+    print(f"Plot saved to: plots/train_plot_{config.experiment_name}.png")
 
     return agent, logger
 
 
 if __name__ == "__main__":
-    cfg = Config()
-    train_dqn(cfg)
+    # Neural network configurations to test
+    experiments = {
+        "baseline": Config(
+            experiment_name="baseline",
+            hidden_layers=(128, 128),
+            activation_f=nn.ReLU,
+            dropout_rate=0.0),
+        "wide": Config(
+                experiment_name="wide",
+                hidden_layers=(256, 256),
+                activation_f=nn.ReLU,
+                dropout_rate=0.0),
+        "deep": Config(
+            experiment_name="deep",
+            hidden_layers=(128, 128, 128),
+            activation_f=nn.ReLU,
+            dropout_rate=0.0),
+        "dropout": Config(
+            experiment_name="dropout",
+            hidden_layers=(128, 128),
+            activation_f=nn.ReLU,
+            dropout_rate=0.2)
+    }
+    results = {}
+
+    # Run DQN experiments across different model configs and log training results
+    for name, cfg in experiments.items():
+        print("\n" + "-" * 40)
+        print(f"Experiment: {name}")
+        print("-" * 40)
+
+        agent, logger = train_dqn(cfg)
+        results[name] = logger

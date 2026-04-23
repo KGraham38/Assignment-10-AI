@@ -18,12 +18,22 @@ class DQNAgent:
         self.config = config
         self.device = device
 
+        # Initialize policy and target networks using configurable architectures
         self.policy_net = DQNNetwork(
-            state_size, action_size, config.hidden_size_1, config.hidden_size_2
+            state_size,
+            config.hidden_layers,
+            action_size,
+            activation_f=config.activation_f,
+            dropout_rate=config.dropout_rate
         ).to(device)
         self.target_net = DQNNetwork(
-            state_size, action_size, config.hidden_size_1, config.hidden_size_2
+            state_size,
+            config.hidden_layers,
+            action_size,
+            activation_f=config.activation_f,
+            dropout_rate=config.dropout_rate
         ).to(device)
+        
         self.target_net.load_state_dict(self.policy_net.state_dict())
         self.target_net.eval()
 
